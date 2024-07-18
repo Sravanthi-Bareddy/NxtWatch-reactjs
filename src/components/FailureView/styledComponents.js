@@ -1,39 +1,29 @@
 import styled from 'styled-components'
 
-export const FailedView = styled.div`
+export const FailureContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  background: none;
+  min-height: 91vh;
 `
-export const FailedImage = styled.img`
-  width: 200px;
-  @media screen and (min-width: 768px) {
-    width: 450px;
-  } ;
+
+export const FailureImage = styled.img`
+  margin-top: 48px;
+  width: 26%;
 `
-export const FailedHeading = styled.h1`
-  font-family: 'Roboto';
-  font-size: 25px;
-  color: ${props => props.headingColor};
-  text-align: center;
+
+export const Suggestion = styled.p`
+  color: ${props => (!props.darkMode ? '#0f0f0f' : '#f9f9f9')};
 `
-export const FailedNote = styled.p`
-  font-family: 'Roboto';
-  font-size: 18px;
-  color: ${props => props.noteColor};
-  text-align: center;
+export const ErrorMsg = styled.h1`
+  color: ${props => (!props.darkMode ? '#0f0f0f' : '#f9f9f9')};
 `
-export const RetryButton = styled.button`
-  border: none;
-  background-color: #4f46e5;
-  border-radius: 3px;
+
+export const RetryButtonInFailure = styled.button`
+  border-radius: 4px;
   color: #ffffff;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  font-family: Roboto;
-  font-size: 15px;
+  height: 39px;
+  width: 11%;
+  background-color: #4f46e5;
+  border: none;
 `

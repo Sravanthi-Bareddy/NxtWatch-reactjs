@@ -1,66 +1,74 @@
-import {CgPlayListAdd} from 'react-icons/cg'
+import {BiListPlus} from 'react-icons/bi'
+import ThemeContext from '../../context/ThemeContext'
 
 import Header from '../Header'
-import NavigationSideBar from '../NavigationSideBar'
-import ThemeContext from '../../context/ThemeContext'
-import TrendingVideoCard from '../TrendingVideoCard'
+import SideBar from '../SideBar'
 
 import {
-  SavedContainer,
-  SavedTitleIconContainer,
-  SavedVideoTitle,
-  SavedVideoList,
-  SavedText,
-  NoSavedVideosView,
-  NoSavedVideosImage,
-  NoSavedVideosHeading,
-  NoSavedVideosNote,
+  SavedVideosContainer,
+  SavedVideosContentContainer,
+  VideosContainer,
+  NoSavedVideosContainer,
+  NoSavedVideos,
+  NoSavesVideosText,
+  NoSavedVideosSuggestion,
+  LinkItem,
+  IconContainer,
+  Heading,
 } from './styledComponents'
+
+import VideoItem from '../VideoItem'
 
 const SavedVideos = () => (
   <ThemeContext.Consumer>
     {value => {
-      const {isDarkTheme, savedVideos} = value
-      const bgColor = isDarkTheme ? '#0f0f0f' : '#f9f9f9'
-      const textColor = isDarkTheme ? '#f9f9f9' : '#231f20'
-      const headingColor = isDarkTheme ? '#f1f5f9' : '#1e293b'
-      const noteColor = isDarkTheme ? '#e2e8f0' : '#475569'
+      const {isDarkTheme, savedVideosList} = value
+      const renderSavedVideos = () => (
+        <>
+          <LinkItem darkMode={isDarkTheme}>
+            <IconContainer darkMode={isDarkTheme}>
+              <BiListPlus className="header-icon" />
+            </IconContainer>
+            <Heading darkMode={isDarkTheme}>Saved Videos</Heading>
+          </LinkItem>
+          <VideosContainer>
+            {savedVideosList.map(eachMovieDetails => (
+              <VideoItem
+                key={eachMovieDetails.videoDetails.id}
+                eachMovieDetails={eachMovieDetails.videoDetails}
+              />
+            ))}
+          </VideosContainer>
+        </>
+      )
 
       return (
         <>
           <Header />
-          <NavigationSideBar />
-          <SavedContainer data-testid="savedVideos" bgColor={bgColor}>
-            <SavedVideoTitle>
-              <SavedTitleIconContainer>
-                <CgPlayListAdd size={35} color="#ff0000" />
-              </SavedTitleIconContainer>
-              <SavedText color={textColor}>Saved Videos</SavedText>
-            </SavedVideoTitle>
-            {savedVideos.length > 0 ? (
-              <SavedVideoList>
-                {savedVideos.map(eachVideo => (
-                  <TrendingVideoCard
-                    key={eachVideo.id}
-                    videoDetails={eachVideo}
+          <SavedVideosContainer
+            darkMode={isDarkTheme}
+            data-testid="savedVideos"
+          >
+            <SideBar />
+            <SavedVideosContentContainer>
+              {savedVideosList.length === 0 ? (
+                <NoSavedVideosContainer>
+                  <NoSavedVideos
+                    alt="no saved videos"
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
                   />
-                ))}
-              </SavedVideoList>
-            ) : (
-              <NoSavedVideosView>
-                <NoSavedVideosImage
-                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
-                  alt="no saved videos"
-                />
-                <NoSavedVideosHeading headingColor={headingColor}>
-                  No saved videos found
-                </NoSavedVideosHeading>
-                <NoSavedVideosNote noteColor={noteColor}>
-                  You can save your videos while watching them
-                </NoSavedVideosNote>
-              </NoSavedVideosView>
-            )}
-          </SavedContainer>
+                  <NoSavesVideosText darkMode={isDarkTheme}>
+                    No saved videos found
+                  </NoSavesVideosText>
+                  <NoSavedVideosSuggestion darkMode={isDarkTheme}>
+                    Save your videos by clicking a button
+                  </NoSavedVideosSuggestion>
+                </NoSavedVideosContainer>
+              ) : (
+                renderSavedVideos()
+              )}
+            </SavedVideosContentContainer>
+          </SavedVideosContainer>
         </>
       )
     }}
